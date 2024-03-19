@@ -63,11 +63,11 @@ https://github.com/VeeamHub
 
 ## 📦 Implantação
 
-<h2>Solicitação inicial do programa:</h2>h2></br>
+<h3>Solicitação inicial do programa:</h3></br>
 <img height="360em" src="https://github.com/GiovaniDamian/FolderSync/assets/60575219/65fcac49-9221-451b-88f4-776e14622f17"/></br>
-<h2>Ao informar os repositórios será realizada a sincronição com a periodicidade informada:</h2></br>
+<h3>Ao informar os repositórios será realizada a sincronição com a periodicidade informada:</h3></br>
 <img height="360em" src="https://github.com/GiovaniDamian/FolderSync/assets/60575219/4aaf42f9-2620-49c9-92f9-41f493112c8b"/></br>
-<h2>Cada ação será salva no arquivo Log:</h2></br>
+<h3>Cada ação será salva no arquivo Log:</h3></br>
 <img height="360em" src="https://github.com/GiovaniDamian/FolderSync/assets/60575219/54d77302-b58c-44d6-8ab4-11c6b2155999"/>
 obs.: Se não houver log File Path o programa criará.
 
