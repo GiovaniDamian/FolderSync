@@ -12,7 +12,7 @@ pasta;
 
 - A sincronização deve ser realizada periodicamente.
 
-- As operações de criação/cópia/remoção de arquivos devem ser registradas em um arquivo e no
+- As operações de criação/cópia/remoção de arquivos devem ser registradas em um arquivo e na
 saída do console;
 
 - Caminhos de pasta, intervalo de sincronização e caminho do arquivo de log devem ser fornecidos
