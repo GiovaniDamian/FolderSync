@@ -31,11 +31,9 @@ perfeitamente aceitável usar uma biblioteca de terceiros (ou integrada)
 ## 📋 Pré-requisitos
 
 Resolva a tarefa de teste escrevendo um programa em uma destas linguagens de programação:</br>
-<code>
-Python
+<code>Python
 C/C++
-C#
-</code>
+C#</code>
 
 Além da linguagem utilizada (C#) foi utilizado linha de comando para inserir os parâmetros do usuário.
 
@@ -65,11 +63,11 @@ https://github.com/VeeamHub
 
 ## 📦 Implantação
 
-###Solicitação inicial do programa:</br>
+<h2>Solicitação inicial do programa:</h2>h2></br>
 <img height="360em" src="https://github.com/GiovaniDamian/FolderSync/assets/60575219/65fcac49-9221-451b-88f4-776e14622f17"/></br>
-###Ao informar os repositórios será realizada a sincronição com a periodicidade informada:</br>
+<h2>Ao informar os repositórios será realizada a sincronição com a periodicidade informada:</h2></br>
 <img height="360em" src="https://github.com/GiovaniDamian/FolderSync/assets/60575219/4aaf42f9-2620-49c9-92f9-41f493112c8b"/></br>
-###Cada ação será salva no arquivo Log:</br>
+<h2>Cada ação será salva no arquivo Log:</h2></br>
 <img height="360em" src="https://github.com/GiovaniDamian/FolderSync/assets/60575219/54d77302-b58c-44d6-8ab4-11c6b2155999"/>
 obs.: Se não houver log File Path o programa criará.
 
