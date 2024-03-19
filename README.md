@@ -2,8 +2,7 @@
 Este é um projeto de sincronização de pastas desenvolvido como parte de um processo seletivo para a empresa Veeam.
 Tarefa solicitada para a etapa de candidatura a vaga de QA Developer para a empresa.
 
-## 🚀 Começando
-Solicitação:
+## 🚀 Solicitação
 ```
 Implemente um programa que sincronize duas pastas: origem e réplica. 
 O programa deve manter uma cópia completa e idêntica da pasta de origem na pasta de réplica.
@@ -32,31 +31,27 @@ perfeitamente aceitável usar uma biblioteca de terceiros (ou integrada)
 ### 📋 Pré-requisitos
 
 Resolva a tarefa de teste escrevendo um programa em uma destas linguagens de programação:
-```
+<code>
 Python
 C/C++
 C#
-```
+</code>
 
 Além da linguagem utilizada (C#) foi utilizado linha de comando para inserir os parâmetros do usuário.
 
 ### 🔧 Instalação e Uso
 
-Clone o repositório:
-<code>git clone https://github.com/GiovaniDamian/FolderSync.git</code>
-Navegue até o diretório do projeto:
-<code>cd FolderSync</code>
-Compile o projeto:
-<code>dotnet build</code>
-Execute o aplicativo:
-<code>dotnet run</code>
+<ol>
+  <li>Clone o repositório:</li>
+  <code>git clone https://github.com/GiovaniDamian/FolderSync.git</code>
+  <li>Navegue até o diretório do projeto:</li>
+  <code>cd FolderSync</code>
+  <li>Compile o projeto:</li>
+  <code>dotnet build</code>
+  <li>Execute o aplicativo:</li>
+  <code>dotnet run</code>
+</ol>
 
-## 📦 Implantação
-
-<img height="260em" src="https://github.com/GiovaniDamian/FolderSync/assets/60575219/65fcac49-9221-451b-88f4-776e14622f17"/></br>
-<img height="260em" src="https://github.com/GiovaniDamian/FolderSync/assets/60575219/4aaf42f9-2620-49c9-92f9-41f493112c8b"/></br>
-<img height="260em" src="https://github.com/GiovaniDamian/FolderSync/assets/60575219/54d77302-b58c-44d6-8ab4-11c6b2155999"/>
-obs.: Se não houver log File Path o programa criará.
 
 ## 🛠️ Construído com
 
@@ -68,6 +63,14 @@ obs.: Se não houver log File Path o programa criará.
 https://github.com/VeeamHub
 <a href="https://www.veeam.com/br">Veeam</a>
 
+## 📦 Implantação
+Solicitação inicial do programa:</br>
+<img height="360em" src="https://github.com/GiovaniDamian/FolderSync/assets/60575219/65fcac49-9221-451b-88f4-776e14622f17"/></br>
+Ao informar os repositórios será realizada a sincronição com a periodicidade informada:</br>
+<img height="360em" src="https://github.com/GiovaniDamian/FolderSync/assets/60575219/4aaf42f9-2620-49c9-92f9-41f493112c8b"/></br>
+Cada ação será salva no arquivo Log:</br>
+<img height="360em" src="https://github.com/GiovaniDamian/FolderSync/assets/60575219/54d77302-b58c-44d6-8ab4-11c6b2155999"/>
+obs.: Se não houver log File Path o programa criará.
 
 ## 📄 Licença
 
