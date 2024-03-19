@@ -1,0 +1,28 @@
+# Arquivos de compilação/publish
+bin/
+obj/
+publish/
+
+# Arquivos de dependências NuGet
+*.dll
+*.exe
+*.pdb
+*.user
+packages/
+
+# Arquivos temporários
+*.tmp
+*.DS_Store
+
+# Arquivos de log
+*.log
+
+# Arquivos de configuração pessoal
+*.suo
+*.userprefs
+*.vscode/
+.vs/
+
+# Arquivos de build
+[Dd]ebug/
+[Rr]elease/
