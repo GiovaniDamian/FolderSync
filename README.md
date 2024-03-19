@@ -1,6 +1,5 @@
 # FolderSync
-Este é um projeto de sincronização de pastas desenvolvido como parte de um processo seletivo para a empresa Veeam.
-Tarefa solicitada para a etapa de candidatura a vaga de QA Developer para a empresa.
+Este é um projeto de sincronização de pastas desenvolvido como parte de um processo seletivo para a vaga de QA Developer para a empresa Veeam .
 
 ## 🚀 Solicitação
 ```
