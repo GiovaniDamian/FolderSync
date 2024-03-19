@@ -28,9 +28,9 @@ outra função que calcula MD5 se você precisar para a tarefa – é
 perfeitamente aceitável usar uma biblioteca de terceiros (ou integrada)
 ```
 
-### 📋 Pré-requisitos
+## 📋 Pré-requisitos
 
-Resolva a tarefa de teste escrevendo um programa em uma destas linguagens de programação:
+Resolva a tarefa de teste escrevendo um programa em uma destas linguagens de programação:</br>
 <code>
 Python
 C/C++
@@ -39,7 +39,7 @@ C#
 
 Além da linguagem utilizada (C#) foi utilizado linha de comando para inserir os parâmetros do usuário.
 
-### 🔧 Instalação e Uso
+## 🔧 Instalação e Uso
 
 <ol>
   <li>Clone o repositório:</li>
@@ -64,11 +64,12 @@ https://github.com/VeeamHub
 <a href="https://www.veeam.com/br">Veeam</a>
 
 ## 📦 Implantação
-Solicitação inicial do programa:</br>
+
+###Solicitação inicial do programa:</br>
 <img height="360em" src="https://github.com/GiovaniDamian/FolderSync/assets/60575219/65fcac49-9221-451b-88f4-776e14622f17"/></br>
-Ao informar os repositórios será realizada a sincronição com a periodicidade informada:</br>
+###Ao informar os repositórios será realizada a sincronição com a periodicidade informada:</br>
 <img height="360em" src="https://github.com/GiovaniDamian/FolderSync/assets/60575219/4aaf42f9-2620-49c9-92f9-41f493112c8b"/></br>
-Cada ação será salva no arquivo Log:</br>
+###Cada ação será salva no arquivo Log:</br>
 <img height="360em" src="https://github.com/GiovaniDamian/FolderSync/assets/60575219/54d77302-b58c-44d6-8ab4-11c6b2155999"/>
 obs.: Se não houver log File Path o programa criará.
 
