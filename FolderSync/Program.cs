@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 
 class Program
@@ -74,60 +73,56 @@ class Program
     }
 
     static int SynchronizeFolders(string sourceDir, string replicaDir)
-{
-    int changesDetected = 0;
-    try
     {
-        foreach (string sourceFile in Directory.GetFiles(sourceDir, "*", SearchOption.AllDirectories))
+        int changesDetected = 0;
+        try
         {
-            string relativePath = Path.GetRelativePath(sourceDir, sourceFile);
-            string replicaFile = Path.Combine(replicaDir, relativePath);
-
-            Directory.CreateDirectory(Path.GetDirectoryName(replicaFile));
-
-            if (!File.Exists(replicaFile) || File.GetLastWriteTimeUtc(sourceFile) > File.GetLastWriteTimeUtc(replicaFile))
+            foreach (string sourceFile in Directory.GetFiles(sourceDir, "*", SearchOption.AllDirectories))
             {
-                if (!File.Exists(replicaFile))
-                {
-                    Log($"New file added: {sourceFile} -> {replicaFile}");
-                    Console.WriteLine($"New file added: {sourceFile} -> {replicaFile}");
-                }
-                else
-                {
-                    Log($"File modified: {sourceFile} -> {replicaFile}");
-                    Console.WriteLine($"File modified: {sourceFile} -> {replicaFile}");
-                }
+                string relativePath = Path.GetRelativePath(sourceDir, sourceFile);
+                string replicaFile = Path.Combine(replicaDir, relativePath);
 
-                File.Copy(sourceFile, replicaFile, true);
-                changesDetected++;
+                Directory.CreateDirectory(Path.GetDirectoryName(replicaFile));
+
+                if (!File.Exists(replicaFile) || File.GetLastWriteTimeUtc(sourceFile) > File.GetLastWriteTimeUtc(replicaFile))
+                {
+                    if (!File.Exists(replicaFile))
+                    {
+                        Log($"New file added: {sourceFile} -> {replicaFile}");
+                        Console.WriteLine($"New file added: {sourceFile} -> {replicaFile}");
+                    }
+                    else
+                    {
+                        Log($"File modified: {sourceFile} -> {replicaFile}");
+                        Console.WriteLine($"File modified: {sourceFile} -> {replicaFile}");
+                    }
+
+                    File.Copy(sourceFile, replicaFile, true);
+                    changesDetected++;
+                }
+            }
+
+            foreach (string replicaFile in Directory.GetFiles(replicaDir, "*", SearchOption.AllDirectories))
+            {
+                string relativePath = Path.GetRelativePath(replicaDir, replicaFile);
+                string sourceFile = Path.Combine(sourceDir, relativePath);
+
+                if (!File.Exists(sourceFile))
+                {
+                    File.Delete(replicaFile);
+                    Log($"File removed from replica: {replicaFile}");
+                    Console.WriteLine($"File removed from replica: {replicaFile}");
+                    changesDetected++;
+                }
             }
         }
-
-        foreach (string replicaFile in Directory.GetFiles(replicaDir, "*", SearchOption.AllDirectories))
+        catch (Exception ex)
         {
-            string relativePath = Path.GetRelativePath(replicaDir, replicaFile);
-            string sourceFile = Path.Combine(sourceDir, relativePath);
-
-            if (!File.Exists(sourceFile))
-            {
-                File.Delete(replicaFile);
-                Log($"File removed from replica: {replicaFile}");
-                Console.WriteLine($"File removed from replica: {replicaFile}");
-                changesDetected++;
-            }
+            Console.WriteLine($"Error during synchronization: {ex.Message}");
         }
+
+        return changesDetected;
     }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Error during synchronization: {ex.Message}");
-    }
-
-    return changesDetected;
-}
-
-
-
-
 
     static void InputListener()
     {
