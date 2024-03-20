@@ -74,100 +74,60 @@ class Program
     }
 
     static int SynchronizeFolders(string sourceDir, string replicaDir)
+{
+    int changesDetected = 0;
+    try
     {
-        int changesDetected = 0;
-        try
+        foreach (string sourceFile in Directory.GetFiles(sourceDir, "*", SearchOption.AllDirectories))
         {
-            foreach (string sourceFile in Directory.GetFiles(sourceDir, "*", SearchOption.AllDirectories))
+            string relativePath = Path.GetRelativePath(sourceDir, sourceFile);
+            string replicaFile = Path.Combine(replicaDir, relativePath);
+
+            Directory.CreateDirectory(Path.GetDirectoryName(replicaFile));
+
+            if (!File.Exists(replicaFile) || File.GetLastWriteTimeUtc(sourceFile) > File.GetLastWriteTimeUtc(replicaFile))
             {
-                string relativePath = Path.GetRelativePath(sourceDir, sourceFile);
-                string replicaFile = Path.Combine(replicaDir, relativePath);
-
-                Directory.CreateDirectory(Path.GetDirectoryName(replicaFile));
-
-                if (!File.Exists(replicaFile) || File.GetLastWriteTimeUtc(sourceFile) > File.GetLastWriteTimeUtc(replicaFile))
-                {
-
-
-                    if (!File.Exists(replicaFile))
-                    {
-                        Directory.CreateDirectory(Path.GetDirectoryName(replicaFile));
-                        File.Copy(sourceFile, replicaFile);
-                        Log($"New file added: {sourceFile}");
-                        Console.WriteLine($"New file added: {sourceFile}");
-                        changesDetected++;
-                    }
-                    else if (File.GetLastWriteTimeUtc(sourceFile) > File.GetLastWriteTimeUtc(replicaFile))
-                    {
-                        Log($"File modified: {sourceFile} -> {replicaFile}");
-                        Console.WriteLine($"File modified: {sourceFile} -> {replicaFile}");
-
-                        File.Copy(sourceFile, replicaFile, true);
-                        changesDetected++;
-                    }
-                    if (File.Exists(replicaFile))
-                    {
-                        Log($"File copied: {sourceFile} -> {replicaFile}");
-                        Console.WriteLine($"File copied: {sourceFile} -> {replicaFile}");
-                    }
-
-                    File.Copy(sourceFile, replicaFile, true);
-
-                    changesDetected++;
-                }
-            }
-
-            foreach (string replicaFile in Directory.GetFiles(replicaDir, "*", SearchOption.AllDirectories))
-            {
-                string relativePath = Path.GetRelativePath(replicaDir, replicaFile);
-                string sourceFile = Path.Combine(sourceDir, relativePath);
-
-                if (!File.Exists(sourceFile))
-                {
-                    File.Delete(replicaFile);
-                    Log($"File removed from replica: {replicaFile}");
-                    Console.WriteLine($"File removed from replica: {replicaFile}");
-                    changesDetected++;
-                }
-            }
-
-            foreach (string sourceFile in Directory.GetFiles(sourceDir, "*", SearchOption.AllDirectories))
-            {
-                string relativePath = Path.GetRelativePath(sourceDir, sourceFile);
-                string replicaFile = Path.Combine(replicaDir, relativePath);
-
                 if (!File.Exists(replicaFile))
                 {
-                    Directory.CreateDirectory(Path.GetDirectoryName(replicaFile));
-                    File.Copy(sourceFile, replicaFile);
                     Log($"New file added: {sourceFile} -> {replicaFile}");
                     Console.WriteLine($"New file added: {sourceFile} -> {replicaFile}");
-                    changesDetected++;
                 }
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error during synchronization: {ex.Message}");
-        }
+                else
+                {
+                    Log($"File modified: {sourceFile} -> {replicaFile}");
+                    Console.WriteLine($"File modified: {sourceFile} -> {replicaFile}");
+                }
 
-        foreach (string sourceSubDir in Directory.GetDirectories(sourceDir))
-        {
-            string relativePath = Path.GetRelativePath(sourceDir, sourceSubDir);
-            string replicaSubDir = Path.Combine(replicaDir, relativePath);
-
-            if (!Directory.Exists(replicaSubDir))
-            {
-                Directory.CreateDirectory(replicaSubDir);
-                Log($"Folder created in replica: {replicaSubDir}");
-                Console.WriteLine($"Folder created in replica: {replicaSubDir}");
+                File.Copy(sourceFile, replicaFile, true);
                 changesDetected++;
             }
-
-            changesDetected += SynchronizeFolders(sourceSubDir, replicaSubDir);
         }
-        return changesDetected;
+
+        foreach (string replicaFile in Directory.GetFiles(replicaDir, "*", SearchOption.AllDirectories))
+        {
+            string relativePath = Path.GetRelativePath(replicaDir, replicaFile);
+            string sourceFile = Path.Combine(sourceDir, relativePath);
+
+            if (!File.Exists(sourceFile))
+            {
+                File.Delete(replicaFile);
+                Log($"File removed from replica: {replicaFile}");
+                Console.WriteLine($"File removed from replica: {replicaFile}");
+                changesDetected++;
+            }
+        }
     }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error during synchronization: {ex.Message}");
+    }
+
+    return changesDetected;
+}
+
+
+
+
 
     static void InputListener()
     {
