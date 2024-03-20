@@ -93,8 +93,8 @@ class Program
                     {
                         Directory.CreateDirectory(Path.GetDirectoryName(replicaFile));
                         File.Copy(sourceFile, replicaFile);
-                        Log($"New file added: {sourceFile} -> {replicaFile}");
-                        Console.WriteLine($"New file added: {sourceFile} -> {replicaFile}");
+                        Log($"New file added: {sourceFile}");
+                        Console.WriteLine($"New file added: {sourceFile}");
                         changesDetected++;
                     }
                     else if (File.GetLastWriteTimeUtc(sourceFile) > File.GetLastWriteTimeUtc(replicaFile))
