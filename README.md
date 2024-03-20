@@ -49,6 +49,8 @@ Além da linguagem utilizada (C#) foi utilizado linha de comando para inserir os
   <code>dotnet run</code>
 </ol>
 
+Pode também navegar até o executável em:
+<code>\FolderSync\FolderSync\bin\Debug\net8.0\FolderSync.exe</code>
 
 ## 🛠️ Construído com
 
