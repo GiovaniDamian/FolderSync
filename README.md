@@ -74,6 +74,21 @@ obs.: Se não houver log File Path o programa criará.
 
 Este projeto é licenciado sob a <a href="LICENSE">MIT License</a>.
 
+## ⚙️ Executando os testes
+Os testes automatizados são realizados utilizando uma função chamada TestSynchronizeFolders(), onde são configuradas as condições iniciais, executada a função a ser testada (SynchronizeFolders()), e então são verificados os resultados para garantir que o comportamento do programa está de acordo com o esperado.
+
+A função de teste segue um padrão geral:
+
+Configuração: São preparados os dados e o ambiente necessários para o teste. Isso pode incluir a criação de diretórios, arquivos e a definição de outras condições iniciais.
+
+Execução: A função a ser testada é invocada com os dados e parâmetros de entrada necessários. Neste caso, a função SynchronizeFolders() é chamada para sincronizar os diretórios especificados.
+
+Verificação: São realizadas as verificações para garantir que o resultado da execução corresponda ao esperado. Isso pode incluir a verificação da existência de arquivos, do conteúdo dos arquivos, entre outras coisas.
+
+Limpeza: Após o teste, são feitas as ações necessárias para limpar o ambiente e restaurar as condições iniciais, garantindo que os testes subsequentes não sejam afetados por resultados anteriores.
+
+Além disso, ao final dos testes automatizados, é apresentado um resumo do que foi realizado e o usuário é solicitado a pressionar uma tecla para fechar o programa.
+<img height="360em" src="https://github.com/GiovaniDamian/FolderSync/assets/60575219/7aa35137-db48-4487-85e2-a0917fc8951d"/>
 
 ---
 ⌨️ por [Giovani Damian]([https://gist.github.com/lohhans](https://github.com/GiovaniDamian)https://github.com/GiovaniDamian) 😊
