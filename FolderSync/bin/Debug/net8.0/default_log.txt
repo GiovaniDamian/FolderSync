@@ -1,0 +1,6 @@
+20/03/2024 10:41:12: New file added: source\file1.txt -> replica\file1.txt
+20/03/2024 10:41:12: File copied: source\file1.txt -> replica\file1.txt
+20/03/2024 10:41:12: New file added: source\file2.txt -> replica\file2.txt
+20/03/2024 10:41:12: File copied: source\file2.txt -> replica\file2.txt
+20/03/2024 10:41:12: New file added: source\newFile.txt -> replica\newFile.txt
+20/03/2024 10:41:12: File copied: source\newFile.txt -> replica\newFile.txt

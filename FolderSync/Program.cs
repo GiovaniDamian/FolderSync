@@ -19,7 +19,6 @@ class Program
 
         userInput = Console.ReadLine();
 
-        // Verifica se o usuário deseja executar os testes automáticos
         if (userInput.ToLower() == "yes")
         {
             Console.WriteLine("Running automated tests...");
@@ -88,9 +87,32 @@ class Program
 
                 if (!File.Exists(replicaFile) || File.GetLastWriteTimeUtc(sourceFile) > File.GetLastWriteTimeUtc(replicaFile))
                 {
+
+
+                    if (!File.Exists(replicaFile))
+                    {
+                        Directory.CreateDirectory(Path.GetDirectoryName(replicaFile));
+                        File.Copy(sourceFile, replicaFile);
+                        Log($"New file added: {sourceFile} -> {replicaFile}");
+                        Console.WriteLine($"New file added: {sourceFile} -> {replicaFile}");
+                        changesDetected++;
+                    }
+                    else if (File.GetLastWriteTimeUtc(sourceFile) > File.GetLastWriteTimeUtc(replicaFile))
+                    {
+                        Log($"File modified: {sourceFile} -> {replicaFile}");
+                        Console.WriteLine($"File modified: {sourceFile} -> {replicaFile}");
+
+                        File.Copy(sourceFile, replicaFile, true);
+                        changesDetected++;
+                    }
+                    if (File.Exists(replicaFile))
+                    {
+                        Log($"File copied: {sourceFile} -> {replicaFile}");
+                        Console.WriteLine($"File copied: {sourceFile} -> {replicaFile}");
+                    }
+
                     File.Copy(sourceFile, replicaFile, true);
-                    Log($"File copied: {sourceFile} -> {replicaFile}");
-                    Console.WriteLine($"File copied: {sourceFile} -> {replicaFile}");
+
                     changesDetected++;
                 }
             }
@@ -105,6 +127,21 @@ class Program
                     File.Delete(replicaFile);
                     Log($"File removed from replica: {replicaFile}");
                     Console.WriteLine($"File removed from replica: {replicaFile}");
+                    changesDetected++;
+                }
+            }
+
+            foreach (string sourceFile in Directory.GetFiles(sourceDir, "*", SearchOption.AllDirectories))
+            {
+                string relativePath = Path.GetRelativePath(sourceDir, sourceFile);
+                string replicaFile = Path.Combine(replicaDir, relativePath);
+
+                if (!File.Exists(replicaFile))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(replicaFile));
+                    File.Copy(sourceFile, replicaFile);
+                    Log($"New file added: {sourceFile} -> {replicaFile}");
+                    Console.WriteLine($"New file added: {sourceFile} -> {replicaFile}");
                     changesDetected++;
                 }
             }
@@ -164,55 +201,59 @@ class Program
     }
     static void TestSynchronizeFolders()
     {
-        // Configuração
         string sourceDir = "source";
         string replicaDir = "replica";
 
-        // Cria pastas de origem e réplica
         Directory.CreateDirectory(sourceDir);
         Directory.CreateDirectory(replicaDir);
 
         try
         {
-            // Cria alguns arquivos na pasta de origem
             string sourceFile1 = Path.Combine(sourceDir, "file1.txt");
             string sourceFile2 = Path.Combine(sourceDir, "file2.txt");
-            File.WriteAllText(sourceFile1, "Conteúdo do arquivo 1");
-            File.WriteAllText(sourceFile2, "Conteúdo do arquivo 2");
+            File.WriteAllText(sourceFile1, "Content of file 1");
+            File.WriteAllText(sourceFile2, "Content of file 2");
 
-            // Chama a função a ser testada
             Program.SynchronizeFolders(sourceDir, replicaDir);
 
-            // Verifica se os arquivos foram copiados para a pasta de réplica
             string replicaFile1 = Path.Combine(replicaDir, "file1.txt");
             string replicaFile2 = Path.Combine(replicaDir, "file2.txt");
             if (!File.Exists(replicaFile1) || !File.Exists(replicaFile2))
             {
-                throw new Exception("Os arquivos não foram copiados corretamente para a pasta de réplica.");
+                throw new Exception("Files were not correctly copied to the replica folder.");
             }
 
-            // Verifica se o conteúdo dos arquivos é o mesmo
             string content1 = File.ReadAllText(replicaFile1);
             string content2 = File.ReadAllText(replicaFile2);
-            if (content1 != "Conteúdo do arquivo 1" || content2 != "Conteúdo do arquivo 2")
+            if (content1 != "Content of file 1" || content2 != "Content of file 2")
             {
-                throw new Exception("O conteúdo dos arquivos na pasta de réplica não corresponde ao conteúdo original.");
+                throw new Exception("The content of files in the replica folder does not match the original content.");
             }
 
-            // Teste bem-sucedido
-            Console.WriteLine("Teste de sincronização de pastas bem-sucedido.");
-            // Exibe um resumo do teste
+            string newSourceFile = Path.Combine(sourceDir, "newFile.txt");
+            File.WriteAllText(newSourceFile, "Content of the new file");
+
+            Program.SynchronizeFolders(sourceDir, replicaDir);
+
+            string newReplicaFile = Path.Combine(replicaDir, "newFile.txt");
+            if (!File.Exists(newReplicaFile))
+            {
+                throw new Exception("The new file was not correctly copied to the replica folder.");
+            }
+
+            Console.WriteLine("Folder synchronization test successful.");
             Console.WriteLine("Summary:");
             Console.WriteLine("1. Source folder and replica folder created.");
             Console.WriteLine("2. Files copied from source to replica.");
             Console.WriteLine("3. Content of files verified.");
+            Console.WriteLine("4. New files added to source and copied to replica.");
         }
         finally
         {
-            // Limpa os arquivos e diretórios criados para o teste
             Directory.Delete(sourceDir, true);
             Directory.Delete(replicaDir, true);
         }
     }
+
 }
 
