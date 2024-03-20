@@ -1,42 +1,61 @@
 ﻿using System;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 
 class Program
 {
     static string sourceDirectory;
     static string replicaDirectory;
-    static string logFilePath;
+    static string logFilePath = "default_log.txt";
     static int syncInterval;
+    static string userInput;
 
     static void Main(string[] args)
     {
         Console.WriteLine("Welcome to the folder synchronization program!");
 
-        GetInputs();
+        Console.WriteLine("Do you want to run automated tests? (yes/no)");
 
-        Console.WriteLine("Starting synchronization...");
-        Console.WriteLine($"Source: {sourceDirectory}");
-        Console.WriteLine($"Replica: {replicaDirectory}");
-        Console.WriteLine($"Interval: {syncInterval} seconds");
-        Console.WriteLine($"Log: {logFilePath}");
+        userInput = Console.ReadLine();
 
-        Thread inputThread = new Thread(InputListener);
-        inputThread.IsBackground = true;
-        inputThread.Start();
-
-        while (true)
+        // Verifica se o usuário deseja executar os testes automáticos
+        if (userInput.ToLower() == "yes")
         {
-            int changes = SynchronizeFolders(sourceDirectory, replicaDirectory);
-            if (changes > 0)
+            Console.WriteLine("Running automated tests...");
+            TestSynchronizeFolders();
+            Console.WriteLine("Automated tests completed.");
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
+        }
+        else
+        {
+            GetInputs();
+
+            Console.WriteLine("Starting synchronization...");
+            Console.WriteLine($"Source: {sourceDirectory}");
+            Console.WriteLine($"Replica: {replicaDirectory}");
+            Console.WriteLine($"Interval: {syncInterval} seconds");
+            Console.WriteLine($"Log: {logFilePath}");
+
+            Thread inputThread = new Thread(InputListener);
+            inputThread.IsBackground = true;
+            inputThread.Start();
+
+            while (true)
             {
-                Console.WriteLine($"Synchronization completed. {changes} files were modified/added/removed.");
+                int changes = SynchronizeFolders(sourceDirectory, replicaDirectory);
+                if (changes > 0)
+                {
+                    Console.WriteLine($"Synchronization completed. {changes} files were modified/added/removed.");
+                }
+                else
+                {
+                    Console.WriteLine("No changes detected. Synchronization skipped.");
+                }
+                Thread.Sleep(syncInterval * 1000);
             }
-            else
-            {
-                Console.WriteLine("No changes detected. Synchronization skipped.");
-            }
-            Thread.Sleep(syncInterval * 1000);
+
         }
     }
 
@@ -141,6 +160,58 @@ class Program
         catch (Exception ex)
         {
             Console.WriteLine($"Error writing to log file: {ex.Message}");
+        }
+    }
+    static void TestSynchronizeFolders()
+    {
+        // Configuração
+        string sourceDir = "source";
+        string replicaDir = "replica";
+
+        // Cria pastas de origem e réplica
+        Directory.CreateDirectory(sourceDir);
+        Directory.CreateDirectory(replicaDir);
+
+        try
+        {
+            // Cria alguns arquivos na pasta de origem
+            string sourceFile1 = Path.Combine(sourceDir, "file1.txt");
+            string sourceFile2 = Path.Combine(sourceDir, "file2.txt");
+            File.WriteAllText(sourceFile1, "Conteúdo do arquivo 1");
+            File.WriteAllText(sourceFile2, "Conteúdo do arquivo 2");
+
+            // Chama a função a ser testada
+            Program.SynchronizeFolders(sourceDir, replicaDir);
+
+            // Verifica se os arquivos foram copiados para a pasta de réplica
+            string replicaFile1 = Path.Combine(replicaDir, "file1.txt");
+            string replicaFile2 = Path.Combine(replicaDir, "file2.txt");
+            if (!File.Exists(replicaFile1) || !File.Exists(replicaFile2))
+            {
+                throw new Exception("Os arquivos não foram copiados corretamente para a pasta de réplica.");
+            }
+
+            // Verifica se o conteúdo dos arquivos é o mesmo
+            string content1 = File.ReadAllText(replicaFile1);
+            string content2 = File.ReadAllText(replicaFile2);
+            if (content1 != "Conteúdo do arquivo 1" || content2 != "Conteúdo do arquivo 2")
+            {
+                throw new Exception("O conteúdo dos arquivos na pasta de réplica não corresponde ao conteúdo original.");
+            }
+
+            // Teste bem-sucedido
+            Console.WriteLine("Teste de sincronização de pastas bem-sucedido.");
+            // Exibe um resumo do teste
+            Console.WriteLine("Summary:");
+            Console.WriteLine("1. Source folder and replica folder created.");
+            Console.WriteLine("2. Files copied from source to replica.");
+            Console.WriteLine("3. Content of files verified.");
+        }
+        finally
+        {
+            // Limpa os arquivos e diretórios criados para o teste
+            Directory.Delete(sourceDir, true);
+            Directory.Delete(replicaDir, true);
         }
     }
 }
